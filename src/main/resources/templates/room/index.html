@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Habitaciones</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div th:replace="fragments/navbar :: navbar"></div>
+    <section th:if="${roomList.size() == 0}">
+        <div class="container" >
+            <h1 class="my-4">No hay habitaciones disponibles</h1>
+            <a href="/home" class="btn btn-primary">Volver al inicio</a>
+            <a  sec:authorize='hasRole("ROLE_ADMIN")' th:href="@{create}" class="btn btn-primary">Crear habitacion</a>
+        </div>
+
+    </section>
+    <section th:if="${roomList.size()>0}" class="container">
+        <div style="display: flex; justify-content: space-between" >
+            <h1>Lista de habitaciones</h1>
+            <a  sec:authorize='hasRole("ROLE_ADMIN")' th:href="@{create}" class="btn btn-primary">Crear habitacion</a>
+        </div>
+        <table class="table">
+            <thead>
+            <tr>
+                <td>Id</td>
+                <td>Nombre</td>
+                <td>Precio por noche</td>
+                <td>Estado</td>
+                <td>Acciones</td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="room: ${roomList}">
+                <td th:text="${room.idRoom()}"></td>
+                <td th:text="${room.roomNumber()}"></td>
+                <td th:text="${room.price()}"></td>
+                <td th:text="${room.status()}"></td>
+                <td sec:authorize='hasRole("ROLE_CLIENT")'>
+                    <a class="btn btn-success" th:href="@{/reservation/create/{id}(id=${room.idRoom})}">Reservar</a>
+                </td>
+                <td sec:authorize="hasRole('ADMIN')">
+                    <a class="btn btn-warning" th:href="@{/room/edit/{id}(id=${room.idRoom})}">Editar</a>
+                    <a class="btn btn-danger" th:href="@{/room/delete/{id}(id=${room.idRoom})}">Eliminar</a>
+                </td>
+
+            </tr>
+            </tbody>
+        </table>
+    </section>
+</body>
+</html>

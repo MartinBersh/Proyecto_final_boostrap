@@ -1,0 +1,48 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Nav</title>
+</head>
+<body>
+
+<div th:fragment="navbar">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">Hotel Villegas</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item active">
+          <a class="nav-link" href="/home">Inicio</a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="/room/list">Habitaciones</a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="/reservation/list">Reservaciones</a>
+        </li>
+      </ul>
+      <ul  class="navbar-nav ml-auto">
+        <li style="display: flex; align-items: center; margin-right: 10px" sec:authorize="isAuthenticated()">
+          <div style="display: block">Bienvenido, <span sec:authentication="name"></span> </div>
+        </li>
+        <div class="flex-box" sec:authorize="!isAuthenticated()">
+          <a th:href="@{/login}">Iniciar Sesión</a>
+        </div>
+        <form sec:authorize="isAuthenticated()" class="form-inline my-2 my-lg-0" th:action="@{/logout}" method="post">
+          <button class="btn btn-outline-danger my-2 my-sm-0" type="submit">
+            <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+          </button>
+        </form>
+      </ul>
+    </div>
+  </nav>
+</div>
+</body>
+</html>

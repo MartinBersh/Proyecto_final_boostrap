@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Registrarse</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div th:replace="fragments/navbar :: navbar"></div>
+<div class="container">
+    <h1 class="my-4">Registrarse</h1>
+    <form th:action="@{/sign-up}" method="post">
+        <div class="form-group">
+            <label for="name">Nombre Completo:</label>
+            <input type="text" id="name" name="name" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="email">Correo Electronico:</label>
+            <input type="email" id="email" name="email" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="userName">Nombre de Usuario:</label>
+            <input type="text" id="userName" name="userName" class="form-control" required>
+        </div>
+        <div th:if="${usernameError}" class="text-danger">
+            <p th:text="${usernameError}"></p>
+        </div>
+        <div class="form-group">
+            <label for="password">Contraseña:</label>
+            <input type="password" id="password" name="password" class="form-control" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Registrarse</button>
+    </form>
+</div>
+</body>
+</html>

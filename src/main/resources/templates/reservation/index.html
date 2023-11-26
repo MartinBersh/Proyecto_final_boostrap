@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Reservaciones</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div th:replace="fragments/navbar :: navbar"></div>
+<section th:if="${reservationList.size() == 0}">
+    <div class="container" >
+        <h1  sec:authorize="hasRole('ADMIN')" class="my-4">No hay reservaciones</h1>
+        <h1  sec:authorize="hasRole('CLIENT')" class="my-4">Aún no has realizado ninguna reservación</h1>
+        <a href="/home" class="btn btn-primary">Volver al inicio</a>
+        <a href="/room/list" class="btn btn-primary">Ver habitaciones disponibles</a>
+    </div>
+</section>
+<section class="container" th:if="${reservationList.size()>0}">
+    <div class="">
+        <h1>Lista de reservaciones</h1>
+    </div>
+    <table  class="table">
+        <thead>
+        <tr>
+            <td>Id</td>
+            <td sec:authorize="hasRole('ADMIN')">Cliente</td>
+            <td>Habitación</td>
+            <td>Fecha de inicio</td>
+            <td>Fecha de fin</td>
+            <td>Número de personas</td>
+            <td sec:authorize="hasRole('ADMIN')">Acciones</td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="reservation: ${reservationList}">
+            <td th:text="${reservation.idReservation()}"></td>
+            <td th:text="${reservation.client().getName()}" sec:authorize="hasRole('ADMIN')"></td>
+            <td th:text="${reservation.room().getRoomNumber()}"></td>
+            <td th:text="${reservation.startDate()}"></td>
+            <td th:text="${reservation.endDate()}"></td>
+            <td th:text="${reservation.numberOfPeople()}"></td>
+            <td sec:authorize="hasRole('ADMIN')">
+                <a class="btn btn-danger" th:href="@{/reservation/delete/{id}(id=${reservation.idReservation()})}">Eliminar</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</section>
+</body>
+</html>

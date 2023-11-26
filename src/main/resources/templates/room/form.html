@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Room Form</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div th:replace="fragments/navbar :: navbar"></div>
+<div class="container">
+    <h1 class="my-4">Crear habitacion</h1>
+    <form th:action="@{save}" th:object="${room}" method="post" class="needs-validation" novalidate>
+        <input type="hidden" th:field="*{idRoom}">
+        <div class="form-group">
+            <label for="roomNumber">Nombre de la habitación:</label>
+            <input id="roomNumber" th:field="*{roomNumber}" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="price">Precio:</label>
+            <input type="number" id="price" th:field="*{price}" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="status">Estado:</label>
+            <select id="status" th:field="*{status}" class="form-control" required>
+                <option th:each="status : ${T(co.edu.cue.hotelvillegas.domain.enums.Status).values()}" th:value="${status}" th:text="${status.getStatus()}"></option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary mt-6">Crear</button>
+    </form>
+</div>
+</body>
+</html>

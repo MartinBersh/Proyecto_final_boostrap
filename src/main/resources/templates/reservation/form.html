@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Crear Reservación</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div th:replace="fragments/navbar :: navbar"></div>
+<div class="container">
+    <h1>Crear Reservación</h1>
+    <form th:action="@{/reservation/book}" th:object="${reservation}" method="post">
+        <div class="form-group">
+            <label for="startDate">Fecha de inicio:</label>
+            <input type="datetime-local" id="startDate" th:field="*{startDate}" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="endDate">Fecha de fin:</label>
+            <input type="datetime-local" id="endDate" th:field="*{endDate}" class="form-control" required>
+        </div>
+        <div th:if="${datesError}" class="text-danger">
+            <p th:text="${datesError}"></p>
+        </div>
+        <div class="form-group">
+            <label for="numberOfPeople">Número de personas:</label>
+            <input type="number" id="numberOfPeople" th:field="*{numberOfPeople}" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label>Detalles de la habitación:</label>
+            <p>Nombre: <span th:text="${selectedRoom.roomNumber}"></span></p>
+            <p>Precio: <span th:text="${selectedRoom.price}"></span></p>
+        </div>
+        <input type="hidden" th:field="*{idRoom}">
+        <button type="submit" class="btn btn-primary">Crear Reservación</button>
+    </form>
+</div>
+</body>
+</html>
