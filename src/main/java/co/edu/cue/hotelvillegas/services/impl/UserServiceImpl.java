@@ -1,6 +1,5 @@
 package co.edu.cue.hotelvillegas.services.impl;
 
-import co.edu.cue.hotelvillegas.constraints.UserConstraint;
 import co.edu.cue.hotelvillegas.domain.entities.User;
 import co.edu.cue.hotelvillegas.domain.enums.Role;
 import co.edu.cue.hotelvillegas.mapping.dto.UserDto;
@@ -18,13 +17,11 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository repository;
-    private final UserConstraint userConstraint;
     @Autowired
     private  PasswordEncoder passwordEncoder;
 
-    public UserServiceImpl(UserRepository repository, UserConstraint userConstraint) {
+    public UserServiceImpl(UserRepository repository) {
         this.repository = repository;
-        this.userConstraint = userConstraint;
     }
 
 
@@ -41,7 +38,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto save(UserDto user) {
-        userConstraint.isUserNameAvailable(user.userName());
 
         User userToSave = UserMapper.mapFrom(user);
         userToSave.setPassword(passwordEncoder.encode(user.password()));
@@ -55,7 +51,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto update(UserDto user) {
-        userConstraint.isUserNameAvailable(user.userName());
         return UserMapper.mapFrom(
                 repository.save(UserMapper.mapFrom(user)));
     }
