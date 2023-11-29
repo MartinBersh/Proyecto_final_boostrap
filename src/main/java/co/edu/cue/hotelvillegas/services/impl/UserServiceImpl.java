@@ -45,8 +45,11 @@ public class UserServiceImpl implements UserService {
 
         User userToSave = UserMapper.mapFrom(user);
         userToSave.setPassword(passwordEncoder.encode(user.password()));
-        userToSave.setRole(list().size() > 0 ? Role.CLIENT : Role.ADMIN);
-
+        if (list().size() > 0) {
+            userToSave.setRole(Role.CLIENT);
+        } else {
+            userToSave.setRole(Role.ADMIN);
+        }
          return UserMapper.mapFrom(repository.save(userToSave));
     }
 

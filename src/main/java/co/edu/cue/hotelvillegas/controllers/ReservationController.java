@@ -34,25 +34,9 @@ public class ReservationController {
     @PostMapping("/book")
     public String createReservation(CreateReservationDto reservation, RedirectAttributes redirectAttributes){
         Optional<RoomDto> roomDto = roomServices.getRoomById(reservation.idRoom());
-        if (roomDto.isEmpty()) {
-            redirectAttributes.addFlashAttribute("roomError", "La habitación no existe");
-            return "redirect:/reservation/create/" + reservation.idRoom();
-        }
 
         if(reservation.startDate().isBefore(LocalDateTime.now())) {
             redirectAttributes.addFlashAttribute("datesError", "La fecha de inicio no puede ser menor a la fecha actual");
-            return "redirect:/reservation/create/" + reservation.idRoom();
-        }
-        if(reservation.startDate().isAfter(reservation.endDate())) {
-            redirectAttributes.addFlashAttribute("datesError", "La fecha de inicio no puede ser mayor a la fecha final");
-            return "redirect:/reservation/create/" + reservation.idRoom();
-        }
-        if(reservation.numberOfPeople() <= 0) {
-            redirectAttributes.addFlashAttribute("peopleError", "El numero de personas debe ser mayor a 0");
-            return "redirect:/reservation/create/" + reservation.idRoom();
-        }
-        if(reservation.startDate().getDayOfMonth() == reservation.endDate().getDayOfMonth()) {
-            redirectAttributes.addFlashAttribute("datesError", "La fecha de inicio no puede ser igual a la fecha final");
             return "redirect:/reservation/create/" + reservation.idRoom();
         }
 
