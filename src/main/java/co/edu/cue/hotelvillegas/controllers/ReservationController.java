@@ -30,7 +30,6 @@ public class ReservationController {
     private final UserService userService;
     private final RoomServices roomServices;
 
-
     @PostMapping("/book")
     public String createReservation(CreateReservationDto reservation, RedirectAttributes redirectAttributes){
         Optional<RoomDto> roomDto = roomServices.getRoomById(reservation.idRoom());
